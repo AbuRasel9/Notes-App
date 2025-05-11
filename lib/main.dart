@@ -1,7 +1,6 @@
-import 'package:flutter/cupertino.dart';
+import 'package:bloc_clean_architecture/view/home/home_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:notes_app_assesment/home_screen.dart';
-
+import '';
 void main(){
   runApp(MyApp());
 }
@@ -11,8 +10,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home:HomeScreen(),
       debugShowCheckedModeBanner: false,
+      home: HomeScreen(),
     );
   }
 }

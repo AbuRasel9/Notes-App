@@ -1,0 +1,1 @@
+enum ApiStatus{loading,initial,success,error}
