@@ -39,7 +39,7 @@ dependencies:
   flutter_riverpod: ^2.4.9
   firebase_core:
   firebase_auth:
-  cloud_firestore: 
+  cloud_firestore:
   go_router:
   freezed_annotation:
   json_annotation:
@@ -82,8 +82,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  assets:
-    - assets/images/
+#  assets:
+#    - assets/images/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
