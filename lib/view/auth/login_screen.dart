@@ -1,3 +1,4 @@
+import 'package:bloc_clean_architecture/config/extensions/context_ext.dart';
 import 'package:bloc_clean_architecture/config/routes/route_name.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -7,15 +8,16 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme=context.theme;
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.all(24.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
               'Welcome Back',
-              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+              style: theme.textTheme.headlineMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
             ),
@@ -49,7 +51,7 @@ class LoginScreen extends StatelessWidget {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  context.go(
+                  context.pushNamed(
                     RoutesName.homeScreen,
                   );
                 },
@@ -65,7 +67,7 @@ class LoginScreen extends StatelessWidget {
             const SizedBox(height: 16),
             TextButton(
               onPressed: () {
-                context.go('/register');
+                context.pushNamed(RoutesName.registrationScreen);
               },
               child: const Text('Create new account'),
             ),

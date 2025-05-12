@@ -1,3 +1,4 @@
+import 'package:bloc_clean_architecture/config/extensions/context_ext.dart';
 import 'package:bloc_clean_architecture/config/routes/route_name.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -19,8 +20,9 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme=context.theme;
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+      backgroundColor:theme.colorScheme.surface ,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
