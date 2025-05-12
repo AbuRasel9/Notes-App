@@ -32,20 +32,25 @@ class AddNoteScreen extends StatelessWidget {
               style: Theme.of(context).textTheme.titleLarge,
             ),
             const SizedBox(height: 20),
-            Expanded(
-              child: TextField(
-                decoration: InputDecoration(
-                  labelText: 'Content',
-                  alignLabelWithHint: true,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
+            TextField(
+              decoration: InputDecoration(
+                labelText: 'Description',
+                alignLabelWithHint: true,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
                 ),
-                maxLines: null,
-                expands: true,
-                keyboardType: TextInputType.multiline,
               ),
+              maxLines: 5,
+
             ),
+            const SizedBox(height: 40),
+
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(onPressed: () {
+
+              }, child: Text("Save")),
+            )
           ],
         ),
       ),
