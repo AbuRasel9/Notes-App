@@ -1,4 +1,5 @@
 import 'package:bloc_clean_architecture/view/addNotes/add_notes_screen.dart';
+import 'package:bloc_clean_architecture/view/detailsNotes/details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bloc_clean_architecture/view/splash/splash_screen.dart';

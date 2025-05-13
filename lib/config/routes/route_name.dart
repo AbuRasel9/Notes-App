@@ -4,4 +4,5 @@ class RoutesName {
   static const String registrationScreen = "/registrationScreen";
   static const String homeScreen = "/homeScreen";
   static const String addNewNotes = "/addNewNotes";
+  static const String detailsNotes = "/detailsNotes";
 }
