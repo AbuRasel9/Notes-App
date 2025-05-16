@@ -130,14 +130,14 @@ class _AddNoteScreenState extends ConsumerState<AddNoteScreen> {
             const SizedBox(height: 24),
             SizedBox(
               width: double.infinity,
-              child: ElevatedButton(
+              child:_isSaving
+                  ? const CircularProgressIndicator()
+                  :  ElevatedButton(
                 onPressed: _isSaving ? null : _saveNote,
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 16),
                 ),
-                child: _isSaving
-                    ? const CircularProgressIndicator()
-                    : Text(widget.noteId == null ? 'Save Note' : 'Update Note'),
+                child: Text(widget.noteId == null ? 'Save Note' : 'Update Note'),
               ),
             ),
           ],

@@ -40,7 +40,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         }
       } on FirebaseAuthException catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(e.message ?? 'Login failed')),
+          SnackBar(
+              content:
+                  Text('Login failed.Please Enter correct Email or password')),
         );
       }
     }
@@ -50,8 +52,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   Widget build(BuildContext context) {
     final theme = context.theme;
     final authState = ref.watch(authProvider);
-
-
 
     return Scaffold(
       body: Padding(
@@ -109,19 +109,18 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               const SizedBox(height: 24),
               SizedBox(
                 width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: authState.isLoading ? null : _login,
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                  child: authState.isLoading
-                      ? const CircularProgressIndicator(
-                  )
-                      : const Text('Login'),
-                ),
+                child: authState.isLoading
+                    ? const CircularProgressIndicator()
+                    : ElevatedButton(
+                        onPressed: authState.isLoading ? null : _login,
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                        child: const Text('Login'),
+                      ),
               ),
               const SizedBox(height: 16),
               TextButton(
