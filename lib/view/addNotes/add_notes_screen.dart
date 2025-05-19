@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../provider/notesProvider/notes_provider.dart';
 
 class AddNoteScreen extends ConsumerStatefulWidget {
+  final bool isEdit;
   final String? noteId;
   final String? initialTitle;
   final String? initialContent;
@@ -13,6 +14,7 @@ class AddNoteScreen extends ConsumerStatefulWidget {
     this.noteId,
     this.initialTitle,
     this.initialContent,
+    this.isEdit = false,
   });
 
   @override
@@ -20,15 +22,18 @@ class AddNoteScreen extends ConsumerStatefulWidget {
 }
 
 class _AddNoteScreenState extends ConsumerState<AddNoteScreen> {
-  late final TextEditingController _titleController;
-  late final TextEditingController _contentController;
+    TextEditingController _titleController=TextEditingController();
+    TextEditingController _contentController=TextEditingController();
   bool _isSaving = false;
 
   @override
   void initState() {
     super.initState();
-    _titleController = TextEditingController(text: widget.initialTitle ?? '');
-    _contentController = TextEditingController(text: widget.initialContent ?? '');
+    if (widget.isEdit == true) {
+      _titleController = TextEditingController(text: widget.initialTitle ?? '');
+      _contentController =
+          TextEditingController(text: widget.initialContent ?? '');
+    }
   }
 
   @override
@@ -37,7 +42,7 @@ class _AddNoteScreenState extends ConsumerState<AddNoteScreen> {
     _contentController.dispose();
     super.dispose();
   }
-
+//save notes
   Future<void> _saveNote() async {
     if (_isSaving) return;
 
@@ -106,7 +111,11 @@ class _AddNoteScreenState extends ConsumerState<AddNoteScreen> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            TextField(
+            //title
+            TextFormField(
+              validator: (value) {
+                return "Enter title";
+              },
               controller: _titleController,
               decoration: const InputDecoration(
                 labelText: 'Title',
@@ -116,7 +125,11 @@ class _AddNoteScreenState extends ConsumerState<AddNoteScreen> {
               maxLength: 100,
             ),
             const SizedBox(height: 16),
-            TextField(
+            //description
+            TextFormField(
+              validator: (value) {
+                return "Enter content";
+              },
               controller: _contentController,
               decoration: const InputDecoration(
                 labelText: 'Content',
@@ -128,23 +141,27 @@ class _AddNoteScreenState extends ConsumerState<AddNoteScreen> {
               maxLength: 1000,
             ),
             const SizedBox(height: 24),
+            //save notes
             SizedBox(
               width: double.infinity,
-              child:_isSaving
-                  ? const CircularProgressIndicator()
-                  :  ElevatedButton(
-                onPressed: _isSaving ? null : _saveNote,
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                ),
-                child: Text(widget.noteId == null ? 'Save Note' : 'Update Note'),
-              ),
+              child: _isSaving
+                  ? const Center(child: CircularProgressIndicator())
+                  : ElevatedButton(
+                      onPressed: _isSaving ? null : _saveNote,
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                      ),
+                      child: Text(
+                          widget.noteId == null ? 'Save Note' : 'Update Note'),
+                    ),
             ),
           ],
         ),
       ),
     );
   }
+
+  //delete dialog
 
   Future<void> _confirmDelete(BuildContext context) async {
     final confirmed = await showDialog<bool>(

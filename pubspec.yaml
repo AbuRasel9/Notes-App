@@ -37,27 +37,22 @@ dependencies:
   cupertino_icons: ^1.0.6
   http: ^1.3.0
   flutter_riverpod: ^2.4.9
+  iconsax_flutter:
+  share_plus:
+  intl:
+
   firebase_core:
   firebase_auth:
   cloud_firestore:
   go_router:
-  freezed_annotation:
-  json_annotation:
-  fluttertoast:
-  another_flushbar: ^1.12.30
-  get_it:
-  injectable:
 
-  equatable:
-  freezed:
 
 
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  build_runner:
-  json_serializable:
+
 
 
   injectable_generator: ^2.1.6
