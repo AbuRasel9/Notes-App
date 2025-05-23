@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../enum.dart';
+import '../enum/font_option.dart';
 
 class AppTextThemes {
   // --------------------------------------
