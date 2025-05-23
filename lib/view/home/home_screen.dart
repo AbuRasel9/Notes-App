@@ -1,15 +1,26 @@
+import 'package:bloc_clean_architecture/bloc/auth/auth_bloc.dart';
+import 'package:bloc_clean_architecture/bloc/auth/auth_event.dart';
+import 'package:bloc_clean_architecture/bloc/auth/auth_state.dart';
+import 'package:bloc_clean_architecture/config/routes/route_name.dart';
+import 'package:bloc_clean_architecture/config/routes/routes.dart';
+import 'package:bloc_clean_architecture/utils/enum/font_option.dart';
+import 'package:bloc_clean_architecture/view/auth/login_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:go_router/go_router.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
 import '../../provider/notesProvider/notes_provider.dart';
 import '../addNotes/add_notes_screen.dart';
 import '../detailsNotes/details_screen.dart';
 import 'package:intl/intl.dart';
+
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
-  Future<void> _deleteNote(String noteId, BuildContext context, WidgetRef ref) async {
+  Future<void> _deleteNote(
+      String noteId, BuildContext context, WidgetRef ref) async {
     try {
       final noteService = ref.read(noteServiceProvider);
       await noteService.deleteNote(noteId);
@@ -56,18 +67,37 @@ class HomeScreen extends ConsumerWidget {
     return Scaffold(
       backgroundColor: Colors.grey.shade50,
       appBar: AppBar(
-        title: const Text('My Notes', style: TextStyle(fontWeight: FontWeight.bold)),
-        centerTitle: true,
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        foregroundColor: Colors.deepPurple,
+        title: const Text('My Notes',
+            style: TextStyle(fontWeight: FontWeight.bold)),
         actions: [
-          IconButton(
-            icon: const Icon(Iconsax.search_normal),
-            onPressed: () {
-              // Implement search functionality
+          BlocListener<AuthBloc, AuthState>(
+            listenWhen: (previous, current) =>
+                previous.apiStatus != current.apiStatus,
+            listener: (context, state) {
+              if (state.apiStatus == ApiStatus.logout) {
+
+                context.go(RoutesName.loginScreen);
+                ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text("Logout Successfull")));
+              } else if(state.apiStatus==ApiStatus.error) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text("Logout Successfull")));
+              }
             },
-          ),
+            child:
+                context.watch<AuthBloc>().state.apiStatus == ApiStatus.loading
+                    ? const Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : IconButton(
+                        onPressed: () {
+                          context.read<AuthBloc>().add(LogoutEvent());
+                        },
+                        icon: const Icon(
+                          Icons.logout,
+                        ),
+                      ),
+          )
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -135,7 +165,8 @@ class HomeScreen extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Image.asset(
-                    'assets/images/empty_notes.png', // Add your own empty state illustration
+                    'assets/images/empty_notes.png',
+                    // Add your own empty state illustration
                     height: 200,
                     color: Colors.grey.shade300,
                   ),
@@ -162,7 +193,7 @@ class HomeScreen extends ConsumerWidget {
           }
 
           return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.all(16),
             child: GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
@@ -187,8 +218,10 @@ class HomeScreen extends ConsumerWidget {
                         builder: (context) => DetailsScreen(
                           title: data['title'],
                           content: data['content'],
-                          createdAt: createdAt.toLocal().toString().split('.')[0],
-                          updatedAt: updatedAt?.toLocal().toString().split('.')[0],
+                          createdAt:
+                              createdAt.toLocal().toString().split('.')[0],
+                          updatedAt:
+                              updatedAt?.toLocal().toString().split('.')[0],
                         ),
                       ),
                     );
@@ -249,7 +282,8 @@ class HomeScreen extends ConsumerWidget {
                                 ),
                               ),
                               PopupMenuButton(
-                                icon: Icon(Iconsax.more, color: Colors.grey.shade700, size: 20),
+                                icon: Icon(Iconsax.more,
+                                    color: Colors.grey.shade700, size: 20),
                                 itemBuilder: (context) => [
                                   PopupMenuItem(
                                     child: const Row(
@@ -276,12 +310,16 @@ class HomeScreen extends ConsumerWidget {
                                   PopupMenuItem(
                                     child: const Row(
                                       children: [
-                                        Icon(Iconsax.trash, size: 18, color: Colors.red),
+                                        Icon(Iconsax.trash,
+                                            size: 18, color: Colors.red),
                                         SizedBox(width: 8),
-                                        Text('Delete', style: TextStyle(color: Colors.red)),
+                                        Text('Delete',
+                                            style:
+                                                TextStyle(color: Colors.red)),
                                       ],
                                     ),
-                                    onTap: () => Future(() => _deleteNote(note.id, context, ref)),
+                                    onTap: () => Future(() =>
+                                        _deleteNote(note.id, context, ref)),
                                   ),
                                 ],
                               ),
@@ -300,7 +338,6 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 
-
   String _formatDate(DateTime date) {
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
@@ -308,14 +345,13 @@ class HomeScreen extends ConsumerWidget {
     final dateToCheck = DateTime(date.year, date.month, date.day);
 
     if (dateToCheck == today) {
-      return 'Today, ${DateFormat.format(date,"yyyy-MMM-dd")}';
+      return 'Today, ${DateFormat.format(date, "yyyy-MMM-dd")}';
     } else if (dateToCheck == yesterday) {
-      return 'Yesterday, ${DateFormat.format(date,"yyyy-MMM-dd")}';
+      return 'Yesterday, ${DateFormat.format(date, "yyyy-MMM-dd")}';
     } else {
-      return DateFormat.format(date,"yyyy-MMM-dd");
+      return DateFormat.format(date, "yyyy-MMM-dd");
     }
   }
-
 }
 
 class DateFormat {

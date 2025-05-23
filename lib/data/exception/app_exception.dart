@@ -1,9 +1,9 @@
 ///base class for custom exceptions
 
 class AppException implements Exception {
-  final _message;//message associated with the exception
-  final _prefix;//prefix for the exception
-///constractor for creatin and [AppException] instance
+  final _message; //message associated with the exception
+  final _prefix; //prefix for the exception
+  ///constractor for creatin and [AppException] instance
   ///
   /// The [message]parameter represents the message associated with the exception
   /// and the [_prefix] parameter represents the prefix for the exception
@@ -13,6 +13,42 @@ class AppException implements Exception {
   String toString() {
     return "$_message $_prefix";
   }
+}
+
+//email already used
+class EmailAlreayUseException extends AppException {
+  EmailAlreayUseException([String? message])
+      : super(message, "This Email already Used");
+}
+
+//Invalid email formate
+class InvalidEmailException extends AppException {
+  InvalidEmailException([String? message])
+      : super(message, "Invalid Email Formate");
+}
+
+
+
+
+//password weak
+class PasswordWeakException extends AppException {
+  PasswordWeakException([String? message])
+      : super(message, "Password weak");
+}
+
+//user not found
+class UserNotFoundException  extends AppException {
+  UserNotFoundException([String? message])
+      : super(message, "User not found");
+}
+
+
+
+
+//email already used
+class WrongPasswordException extends AppException {
+  WrongPasswordException([String? message])
+      : super(message, "Wrong Password");
 }
 
 class NoInternetException extends AppException {
@@ -33,6 +69,7 @@ class RequestTimeOutException extends AppException {
 class FetchDataException extends AppException {
   FetchDataException([String? message]) : super(message, "");
 }
-class BadRequestException extends AppException{
-  BadRequestException([String?message]):super(message,"Invalid Request");
+
+class BadRequestException extends AppException {
+  BadRequestException([String? message]) : super(message, "Login Failed");
 }

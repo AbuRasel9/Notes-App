@@ -1,4 +1,4 @@
-enum ApiStatus{loading,initial,success,error}
+enum ApiStatus{loading,initial,success,error,logout}
 
 enum FontOptions {
   montserrat,
